@@ -1,0 +1,687 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+
+<!-- PAGE HEADER -->
+<header id="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 m-auto text-center">
+                <h1>Our Services</h1>
+                <p>Fill Out the details in given form and get what you want.</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- SERVICE SECTION -->
+<section id="contact" class="py-3">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <h3 class="text-center">Please fill out this form</h3>
+                        <div class="card">
+                            <div class="card-body">
+                                {% if eligibility %}
+                                {% if status == 1 %}
+
+                                <h5 class="card-title text-center text-success font-weight-bold">
+                                    You're eligible for getting loan
+                                </h5>
+                                <a href="{% url 'details' %}" class="float-right">More Details <i class="fas fa-arrow-circle-right"></i></a>
+                                {%elif status == 0 %}
+                                <h5 class="card-title text-center text-danger font-weight-bold">
+                                    You're not eligible for getting loan
+                                </h5>
+                                {%endif%}
+                                {%else%}
+                                <h5 class="card-title text-center font-weight-bold text-info">
+                                    See Your Status here
+                                </h5>
+                                {%endif%}
+                            </div>
+
+                        </div>
+                        
+
+                        <hr class="my-4">
+                        <hr>
+                        <form action="{%url 'predict'%}" method="post">
+                            {%csrf_token%}
+
+                            <div class="row m-2">
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                        <input type="text" class="form-control" name="name"
+                                            placeholder="Enter Your Name">
+                                    </div>
+                                </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-user"></i> </span>
+                                        </div>
+                                        <select name="gender" class="custom-select ">
+                                            <option value="1" selected>Male</option>
+                                            <option value="0">Female</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            
+
+                            <div class="row m-2">
+                                
+
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-heart"></i> </span>
+                                        </div>
+                                        <select name="married" class="custom-select ">
+                                            <option selected>--Marital Status--</option>
+                                            <option value="1">Married</option>
+                                            <option value="0">Unmarried</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"> <i class="fa fa-group"></i> </span>
+                                        <input type="number" class="form-control" name="dependents"
+                                            placeholder="Number of dependents">
+                                    </div>
+                                </div>
+                                </div>
+
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-md-4">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text"> <i class="fas fa-user-graduate"></i> </span>
+                                        </div>
+                                        <select name="education" class="custom-select ">
+                                            <option selected>--Education--</option>
+                                            <option value="1">Gradute</option>
+                                            <option value="0">Under Gradute</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text"> <i class="fas fa-user-tie"></i> </span>
+                                        </div>
+                                        <select name="self_employed" class="custom-select ">
+                                            <option selected>--Occupation--</option>
+                                            <option value="1">Self Employed</option>
+                                            <option value="0">Not Employed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-user-check"></i> </span>
+                                            <input type="number" class="form-control" name="applicantIncome"
+                                                placeholder="Applicant income">
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class="col-md-6">
+
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-user-friends"></i> </span>
+                                            <input type="number" class="form-control" name="coapplicantIncome"
+                                                placeholder="Coapplicant income">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-coins"></i> </span>
+                                            <input type="number" class="form-control" name="loanamount"
+                                                placeholder="Loan amount in thousands">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-hourglass-half"></i> </span>
+                                            <input type="number" class="form-control" name="loan_amount_term"
+                                                placeholder="Term of loan in Days">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text"> <i class="fas fa-tachometer-alt"></i> </span>
+                                        </div>
+                                        <select name="credit_history" class="custom-select ">
+                                            <option selected>--Credit History--</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  input-group">
+                                        <div class="input-group-prepend">
+
+                                            <span class="input-group-text"> <i class="fas fa-balance-scale"></i> </span>
+                                        </div>
+                                        <select name="propertyarea" class="custom-select ">
+                                            <option selected>--Property Area--</option>
+                                            <option value="1">Urban</option>
+                                            <option value="2">Semi Urban</option>
+                                            <option value="3">Rural</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-2">
+
+                                <!-- <div class="col-md-4">
+                                    <button type="cancel" class="btn btn-secondary btn-block">Cancel</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="reset" class="btn btn-danger btn-block">Reset</button>
+                                </div> -->
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <h4 class="pl-3 pt-4">Find risk</h4>
+                    <hr>
+                        <form action="{%url 'risk'%}" method="post">
+                            {%csrf_token%}
+                            
+                            <div class="col-md-12">
+                            <div class="form-group  input-group">
+                                <div class="input-group-prepend">
+
+                                    <span class="input-group-text"> <i class="fa fa-university"></i> </span>
+                                </div>
+                                <select name="bank" class="custom-select ">
+                                    <option selected>--Select Bank--</option>
+                                    <option value="Union Bank of India">Union Bank of India</option>
+                                    <option value="IDBI Bank">IDBI Bank</option>
+                                    <option value="Bank of India">Bank of India</option>
+                                    <option value="State Bank of India">State Bank of India</option>
+                                    <option value="HDFC Bank">HDFC Bank</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group  input-group">
+                                <div class="input-group-prepend">
+
+                                    <span class="input-group-text"> <i class="fas fa-building"></i> </span>
+                                </div>
+                                <select name="area" class="custom-select ">
+                                    <option selected>--Select Area--</option>
+                                    <option value="Odhav">Odhav</option>
+                                    <option value="Nikol">Nikol</option>
+                                    <option value="Amraiwadi">Amraiwadi</option>
+                                    <option value="Vastral">Vastral</option>
+                                    <option value="Bapunagar">Bapunagar</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                        <div class="row m-2">
+                            <div class="col-md-8">
+
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success btn-block">Submit</button>
+                            </div>
+
+                        </div>
+                        </form>
+
+                        {% if bank_risk and area_risk %}
+                            <p class="px-3">Bank Risk is {{bank_risk}}%</p>
+                            <p class="px-3">Area Risk is {{area_risk}}%</p>
+                        {% else %}
+                            
+                        {% endif %}
+                </div>
+                <div class="card p-4 bg-dark text-white mt-5">
+                    <div class="card-body">
+                        <b> Main factors that determine eligibility for home loan are</b>
+                        <br><br>
+                        <table class="table text-white">
+                            <tbody>
+                                <tr>
+                                    <td>Age of the Applicant</td>
+                                    <td>18 to 70 years</td>
+                                </tr>
+                                <tr>
+                                    <td>Eligibile Salary</td>
+                                    <td>Rs.25,000 per month and above</td>
+                                </tr>
+                                <tr>
+                                    <td>Lowest Home Loan Interest Rates</td>
+                                    <td>6.65%</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum Loan on Property Value</td>
+                                    <td>Up to 90%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                
+            </div>
+
+            
+
+        </div>
+
+        <script>
+            var principal = 0;
+            var interestRate = 0;
+            var timesCompounded = 0;
+            var termOfLoan = 0;
+            var amount = 0;
+            
+            function simpleInterest() {
+              event.preventDefault();
+              var principal = parseFloat(document.getElementById("principalSimple").value);
+              var interestRate = parseFloat(document.getElementById("interestSimple").value);
+              interestRate = interestRate / 100;
+              var termOfLoan = parseFloat(document.getElementById("termSimple").value);
+              var simpleInt = principal * interestRate * termOfLoan;
+              var amount = (principal + simpleInt).toFixed(2);
+              document.getElementById("siOutput-01").innerHTML = "Interest is $" + simpleInt.toFixed(2);
+              document.getElementById("siOutput-02").innerHTML = "Total amount is $" + amount;
+            }
+            
+            function compoundInterest() {
+              event.preventDefault();
+              var principal = parseFloat(document.getElementById("principalCompound").value);
+              var interestRate = parseFloat(document.getElementById("interestCompound").value);
+              interestRate = interestRate / 100;
+              var timesCompounded = parseFloat(document.getElementById("timesCompounded").value);
+              var termOfLoan = parseFloat(document.getElementById("termCompound").value);
+              var a = interestRate / timesCompounded;
+              var b = 1 + a;
+              var c = timesCompounded * termOfLoan;
+              var d = Math.pow(b, c);
+              var amount = (principal * d).toFixed(2);
+              document.getElementById("ciOutput-01").innerHTML = "Interest is $" + (amount - principal).toFixed(2);
+              document.getElementById("ciOutput-02").innerHTML = "Total amount is $" + amount;
+            }
+        </script>
+
+        <div class="card p-4 my-3">
+            <h5 class="text-center">
+                <i class="fas fa-arrow-right px-2"></i>
+                Calculate your amount as per interest rate
+                <i class="fas fa-arrow-left px-2"></i>
+            </h5>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+            <div class="container" id="simple-interest">
+                <h3>Simple Interest</h3>
+                
+                <form id="siForm">
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-coins"></i> </span>
+                            <input type="number" class="form-control" name="loanamount" id="principalSimple"
+                                placeholder="Enter amount of Loan">
+                        </div>
+                    </div>
+
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-tachometer-alt"></i> </span>
+                            <input type="number" class="form-control" name="loanamount" id="interestSimple"
+                                placeholder="Interest rate as 12%">
+                        </div>
+                    </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-hourglass-half"></i> </span>
+                            <input type="number" class="form-control" name="loan_amount_term" id="termSimple"
+                                placeholder="Term of loan in Year">
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                    <div class="row m-2">
+
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-outline-success btn-block" id="btnSimple" onclick="simpleInterest()">Submit</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="reset" class="btn btn-outline-danger btn-block" value="Reset" onClick="document.getElementById('siForm').reset()">Reset</button>
+                        </div>
+
+                    </div>
+                    
+                </form>
+
+                
+                <p class="text-center" id="siOutput-01"></p>
+                <p class="text-center" id="siOutput-02"></p>
+            
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="container" div="compound-interest ">
+                <h3>Compound Interest</h3>
+                
+                <form id="ciForm">
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-coins"></i> </span>
+                            <input type="number" class="form-control" name="loanamount" id="principalCompound"
+                                placeholder="Enter amount of Loan">
+                        </div>
+                    </div>
+                
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-tachometer-alt"></i> </span>
+                            <input type="number" class="form-control" name="loanamount" id="interestCompound"
+                                placeholder="Interest rate as 12%">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-hourglass-half"></i> </span>
+                            <input type="number" class="form-control" name="loan_amount_term" id="timesCompounded"
+                                placeholder="Term of loan in quarterly">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group  input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fas fa-hourglass-half"></i> </span>
+                            <input type="number" class="form-control" name="loan_amount_term" id="termCompound"
+                                placeholder="Term of loan in Year">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                    <div class="row m-2">
+
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-outline-success btn-block" id="btnCompound" onclick="compoundInterest()">Submit</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="reset" class="btn btn-outline-danger btn-block" value="Reset" onClick="document.getElementById('ciForm').reset()">Reset</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                
+                <p class="text-center" id="ciOutput-01"></p>
+                <p class="text-center" id="ciOutput-02"></p>
+                
+            </div>
+        </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="p-5 bg-dark text-white">
+    <div class="container">
+        <h1 class="text-center">Frequently Asked Questions</h1>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <a href="#collapseOne" data-toggle="collapse" data-parent="#accordion">
+                                    What is Dependents field in this form ?
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show">
+                            <div class="card-body bg-secondary">
+                                Fill the number of person on you dependents as financially. If you are self employed put
+                                Zero (0) in field value.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <a href="#collapseTwo" data-toggle="collapse" data-parent="#accordion">
+                                    What is Credit History in this form ?
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse">
+                            <div class="card-body bg-secondary">
+                                Fill Yes if you have done with any loan in past. Fill No if is your first loan.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <a href="#collapseThree" data-toggle="collapse" data-parent="#accordion">
+                                    Where i can see my eligibility status ?
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseThree" class="collapse">
+                            <div class="card-body bg-secondary">
+                                In the top of Services page you can see your status.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <a href="#collapseFour" data-toggle="collapse" data-parent="#accordion">
+                                    What should i do after get eligibile ?
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseFour" class="collapse">
+                            <div class="card-body bg-secondary">
+                                You can see which Banks is available for give you loan.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <a href="#collapseFive" data-toggle="collapse" data-parent="#accordion">
+                                    How can i ask my query ?
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseFive" class="collapse">
+                            <div class="card-body bg-secondary">
+                                You can send your query with Contact page fill your details and send your message.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <a href="#collapseSix" data-toggle="collapse" data-parent="#accordion">
+                                    Which type of loans are available in banks?
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseSix" class="collapse">
+                            <div class="card-body bg-secondary">
+                                There are some loans as per below like Home Loan, Vechile Loan, Business Loan, Education
+                                Loan and Personal Loan.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div style="color:black;text-align:center;">
+                        <div class="card-body">
+                            <i class="far fa-building fa-5x"></i>
+                            <br><br>
+                            <h2>Home Loan</h2>
+                            <hr>
+                            <p>A home/housing loan, also known as a mortgage, is an amount of money borrowed by an
+                                individual,
+                                usually from banks and companies that lend money. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div style="color:black;text-align:center;">
+                        <div class="card-body">
+                            <i class="fas fa-car fa-5x"></i>
+                            <br><br>
+                            <h2>Vechile Loan</h2>
+                            <hr>
+                            <p>A car loan (also known as an automobile loan, or auto loan)
+                                is a sum of money a consumer borrows in order to purchase a car.
+                                ... This type of loan is also known as financing. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div style="color:black;text-align:center;">
+                        <div class="card-body">
+                            <i class="fa fa-briefcase fa-5x"></i>
+                            <br><br>
+                            <h2>Business Loan</h2>
+                            <hr>
+                            <p>A business loan is a loan specifically intended for business purposes.
+                                As with all loans,it involves the creation of a debt, which will be repaid with added
+                                interest. </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div style="color:black;text-align:center;">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap fa-5x"></i>
+                            <br><br>
+                            <h2>Education Loan</h2>
+                            <hr>
+                            <p>An education loan is a sum of money borrowed to finance college
+                                or school-related expenses while pursuing an academic degree.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <div style="color:black;text-align:center;">
+                        <div class="card-body">
+                            <i class="far fa-handshake fa-5x"></i>
+                            <br><br>
+                            <h2>Personal Loan</h2>
+                            <hr>
+                            <p>A personal loan is an amount of money you can borrow to use for a variety of purposes.
+                                For instance, you may use a personal loan to consolidate debt, pay for home renovations,
+                                or plan a dream wedding.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

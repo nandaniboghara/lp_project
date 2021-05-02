@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" id="main-nav">
+    <div class="container">
+        <a href="index.html" class="navbar-brand">Loan Approval Prediction</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li {% if '/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                    <a href="{% url 'index' %}" class="nav-link">
+                        Home</a>
+                </li>
+                <li {% if 'services' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                    <a href="{% url 'services' %}" class="nav-link">
+                        Services
+                    </a>
+                </li>
+                <li {% if 'contact' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                    <a href="{% url 'contact' %}" class="nav-link">
+                        Contact</a>
+                </li>
+                {% if user.is_authenticated %}
+
+
+
+                <!-- Dropdown -->
+                <li class="nav-item dropdown" id="white">
+                    <a class="nav-link dropdown-toggle" href="{% url 'services' %}" id="navbardrop" data-toggle="dropdown" style="color:white">
+                        <i class="fas fa-user-circle"></i> {{user.username}}
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'dashboard' %}"><i class="fas fa-user-edit"></i> Dashboard</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>                        
+                    </div>
+                </li>
+
+
+
+                {% else %}
+
+                <li {% if 'login' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <i class="fas fa-sign-in-alt text-white pr-1"></i>Login
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>

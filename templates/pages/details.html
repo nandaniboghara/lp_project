@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+
+
+<!-- PAGE HEADER -->
+<header id="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 m-auto text-center">
+                <h1>Our Services</h1>
+                <p>Fill Out the details in given form and get what you want.</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="py-3">
+    <div class="container text-justify">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+            <h2>Loan Interest Rates</h2>
+            <p class="p-4 bg-dark text-white col-md-8">Compare the lowest home loan interest rate starting from 6.65% p.a. and apply for the best home loan.
+            Get the complete list of current housing loan rate of interest in India from all leading banks and financial institutions.</p>
+            <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Banks</th>
+                <th>Interest Rate(p.a.)</th>
+                <th>Processing Fees</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% if banks %}
+                    {% for bank in banks%}
+                        <tr>
+                            <td>{{bank.name}}</td>
+                            <td>{{bank.interest}}</td>
+                            <td>{{bank.fees}}</td>
+                        </tr>      
+                    {% endfor %}
+                {% else %}
+                {% endif %}
+            
+        </tbody>
+      </table>
+      <p class="text-justify">Home loan interest rates for all banks updated on 16 Apr 2021
+      <br>
+      SBI offers home loan at 6.70% as a limited period offer valid till 31 March </p>
+    </div>
+    <div class="col-md-4 mt-5">
+        <div class="card">
+            <div class="card-header">
+                Documents required for getting loan
+            </div>
+            <div class="card-body">
+                
+                Identity proof (copy of passport/voter ID card/driving license/Aadhaar)<br>
+                Address proof (copy of passport/voter ID card/driving license/Aadhaar)<br>
+                Bank statement of previous 3 months (Passbook of previous 6 months)<br>
+                Two latest salary slip/current dated salary certificate with the latest Form 16<br>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</section>
+
+    
+{% endblock %}
